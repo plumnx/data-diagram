@@ -1,0 +1,69 @@
+[readme]
+
+1.
+IF Platform is made up of two type services, the Monitor Service and Proxy Service.
+
+Monitor Service
+It having an obligation to monitor various types of data sources by listener. After recognition to-do data, create tasks and distribute them, monitoring the execution results, in the end it'll finish task / resource status.
+
+Proxy Service
+Mainly used in accordance with the distribution task request, create a data process flow instance and execution, monitoring the procession and results.
+
+IF Platform using the above two services to exchange data with the external data resource, to completed the data input, transform, output procession.
+
+2.Process Flow Chart
+Data Process Task, The Monitor scan and identify todo data, then create a task to finish that data-exchange work.
+
+Flow Instance, the abstract object of the data flow. It was created by Proxy Service, and based on the task requirements.Then Proxy Service execute the procession, it includes multiply steps and components(Reader Component, Process Component, Write Component). After all of the flow steps running completed, The Proxy Service will end the flow instance.
+
+File Monitor, it was always working in the Monitor-Service, and real-time monitoring the folder and file.
+
+Flow Monitor, it was running by Proxy-Service, and monitor the whole life-cycle of flow instances.
+
+Exception Data Monitor, it was running by Proxy-Service, and collect exception data when the flow instancedatadata
+dadadadadD processing.
+
+3.Flow Configuration
+The IF-Platform supports serveral flow configurations. You can used then alone, or combine those configurations.
+
+Sharding, it was caculated by serveral-stategies and you can extend it. The sharding process was running in the Monitor-Service phase, and split the datum to servial partitions. One partition mapping one task. So you can let the data-procession working concurrently in multiply Proxy-Services.
+
+Blocking, the block size was configured in the flow template. When Proxy Service regconized the distributed task, then it create a flow instance and running the data procession with serveral threads concurrently. One thread mapping one block, and it will limit the max concurrent thread number. After all of the blocks completed, the flow finished.
+
+Skip Or Stop, when Proxy-Service running the data procession, may be some exception will occurs in that phase. When the exception occurs, the Exception Data Monitor will collect it. And you can choose skip the error, and to tackle the remaining data. Or just stop everything includes the flow instance. 
+
+4.Component Configuration
+The flow instance was created from the flow template. But what made of a flow template ? 
+In IF-Platform, the core content of a flow template is a flow diagram. It includes multiply steps, and IF compose those steps to construct a data flow diagram. You can set some condition to link every steps, and design a process flow to support data-exchange.
+
+One Step can have multiply components, including reader, process, writer and executor.
+
+Reader, you may choose csv-reader, db-reader, json-reader or extend youself reader.
+
+Process, its responsibility was to transform the data and convert it. You can using the uniform converter(fit most of the components), or just design a process in your specify data process.
+
+Writer, using this item to output the data to db, csv file, mq or HTTP.
+
+Executor, you can implemented it and running your customize code.
+
+5.Monitor
+File Monitor, the Monitor-Service will identify the file and monitor it in the whole task-life cycle, after data-process finished, it will end the data-resource(move file or tackle the datum).
+And you can saw all of file(data-resource) instances in this page.
+
+Flow Monitor, running by the Proxy-Service, and the duty was to monitor the whole flow-instance cycle.
+And you can saw all of flow instances in this page.
+
+Exception Data Monitor, collecting the exception data when some exception occurs in the data-process.
+And you can saw all of data-errors who created by the flow instance in this page.
+
+
+
+
+
+
+
+
+
+
+
+
